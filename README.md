@@ -282,7 +282,7 @@ Estimated investigation time reduced to less than 5 minutes.
 
 # 👥 Team
 
-Claw-a-thon 2026
+Gogo
 
 Absol AI
 
