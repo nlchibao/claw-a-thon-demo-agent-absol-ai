@@ -1,0 +1,18 @@
+[INFO] Starting Spark Job
+
+[INFO] Reading customer source
+
+[INFO] Path:
+hdfs:///raw/customer/20260610
+
+org.apache.spark.sql.AnalysisException:
+Path does not exist:
+hdfs:///raw/customer/20260610
+
+at org.apache.spark.sql.execution.datasources.DataSource
+
+at org.apache.spark.sql.execution.datasources.DataSource
+
+[ERROR] Spark job failed
+
+[INFO] Marking task as FAILED

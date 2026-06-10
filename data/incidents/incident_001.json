@@ -1,0 +1,8 @@
+{
+  "incident_id": "INC_001",
+  "dag_id": "build_customer_feature_daily",
+  "task_id": "spark_customer_feature",
+  "status": "FAILED",
+  "execution_date": "2026-06-10",
+  "log_file": "inc_001.log"
+}

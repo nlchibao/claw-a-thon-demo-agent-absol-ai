@@ -1,0 +1,23 @@
+customer_platform:
+  emails:
+    - customer_platform@demo.com
+
+merchant_platform:
+  emails:
+    - merchant_platform@demo.com
+
+risk_data:
+  emails:
+    - risk_data@demo.com
+
+fraud_analytics:
+  emails:
+    - fraud_analytics@demo.com
+
+finance_bi:
+  emails:
+    - finance_bi@demo.com
+
+growth_analytics:
+  emails:
+    - growth_analytics@demo.com

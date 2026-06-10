@@ -1,0 +1,17 @@
+[INFO] Starting Spark Job
+
+Executor 5 lost
+
+Container killed by YARN
+
+Container exceeded physical memory limit
+
+Current usage:
+14.5 GB
+
+Limit:
+12 GB
+
+[ERROR] ExecutorLostFailure
+
+[INFO] Marking task as FAILED

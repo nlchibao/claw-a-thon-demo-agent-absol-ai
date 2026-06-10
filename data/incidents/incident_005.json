@@ -1,0 +1,8 @@
+{
+  "incident_id": "INC_005",
+  "dag_id": "build_merchant_feature_daily",
+  "task_id": "merchant_feature",
+  "status": "FAILED",
+  "execution_date": "2026-06-10",
+  "log_file": "inc_005.log"
+}

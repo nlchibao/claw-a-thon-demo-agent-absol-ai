@@ -1,0 +1,35 @@
+ingest_customer_daily:
+  output_dataset: raw_customer
+
+ingest_transaction_daily:
+  output_dataset: raw_transaction
+
+ingest_merchant_daily:
+  output_dataset: raw_merchant
+
+build_customer_feature_daily:
+  output_dataset: customer_feature
+
+build_transaction_feature_daily:
+  output_dataset: transaction_feature
+
+build_merchant_feature_daily:
+  output_dataset: merchant_feature
+
+build_risk_score_daily:
+  output_dataset: risk_score
+
+build_merchant_risk_score_daily:
+  output_dataset: merchant_risk_score
+
+generate_fraud_alert_daily:
+  output_dataset: fraud_alert
+
+publish_risk_dashboard_daily:
+  output_dataset: risk_dashboard
+
+publish_fraud_dashboard_daily:
+  output_dataset: fraud_dashboard
+
+publish_finance_dashboard_daily:
+  output_dataset: finance_dashboard
