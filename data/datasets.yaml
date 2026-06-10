@@ -1,0 +1,47 @@
+raw_customer:
+  owner_team: customer_platform
+  criticality: high
+
+raw_transaction:
+  owner_team: customer_platform
+  criticality: high
+
+raw_merchant:
+  owner_team: merchant_platform
+  criticality: medium
+
+customer_feature:
+  owner_team: customer_platform
+  criticality: high
+
+transaction_feature:
+  owner_team: customer_platform
+  criticality: high
+
+merchant_feature:
+  owner_team: merchant_platform
+  criticality: medium
+
+risk_score:
+  owner_team: risk_data
+  criticality: high
+
+merchant_risk_score:
+  owner_team: risk_data
+  criticality: medium
+
+fraud_alert:
+  owner_team: fraud_analytics
+  criticality: high
+
+risk_dashboard:
+  owner_team: risk_data
+  criticality: high
+
+fraud_dashboard:
+  owner_team: fraud_analytics
+  criticality: high
+
+finance_dashboard:
+  owner_team: finance_bi
+  criticality: medium

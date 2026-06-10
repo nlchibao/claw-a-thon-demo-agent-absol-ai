@@ -1,0 +1,29 @@
+DATA_MISSING:
+  actions:
+    - Check upstream ingestion DAG
+    - Verify source path
+    - Contact source owner
+
+RESOURCE:
+  actions:
+    - Retry DAG
+    - Check cluster utilization
+    - Increase executor memory
+
+CODE_BUG:
+  actions:
+    - Review latest deployment
+    - Check stacktrace
+    - Rollback if needed
+
+INFRA:
+  actions:
+    - Verify Hive Metastore
+    - Check HDFS availability
+    - Contact platform team
+
+PERMISSION:
+  actions:
+    - Verify ACL
+    - Check service account permissions
+    - Contact security team

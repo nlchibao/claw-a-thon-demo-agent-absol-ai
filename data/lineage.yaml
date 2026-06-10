@@ -1,0 +1,45 @@
+raw_customer:
+  downstream:
+    - customer_feature
+
+raw_transaction:
+  downstream:
+    - transaction_feature
+
+raw_merchant:
+  downstream:
+    - merchant_feature
+
+customer_feature:
+  downstream:
+    - risk_score
+
+transaction_feature:
+  downstream:
+    - risk_score
+
+merchant_feature:
+  downstream:
+    - merchant_risk_score
+
+risk_score:
+  downstream:
+    - fraud_alert
+    - risk_dashboard
+
+merchant_risk_score:
+  downstream:
+    - fraud_alert
+
+fraud_alert:
+  downstream:
+    - fraud_dashboard
+
+risk_dashboard:
+  downstream: []
+
+fraud_dashboard:
+  downstream: []
+
+finance_dashboard:
+  downstream: []

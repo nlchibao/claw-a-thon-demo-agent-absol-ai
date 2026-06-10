@@ -1,0 +1,8 @@
+{
+  "incident_id": "INC_002",
+  "dag_id": "build_risk_score_daily",
+  "task_id": "risk_scoring",
+  "status": "FAILED",
+  "execution_date": "2026-06-10",
+  "log_file": "inc_002.log"
+}

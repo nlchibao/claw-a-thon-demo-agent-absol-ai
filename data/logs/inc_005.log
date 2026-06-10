@@ -1,0 +1,14 @@
+Attempting to read:
+
+s3://merchant-data/raw/
+
+Access Denied
+
+Permission denied
+
+User:
+svc_risk_pipeline
+
+does not have permission
+
+Task failed

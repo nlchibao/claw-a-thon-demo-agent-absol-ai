@@ -1,0 +1,8 @@
+{
+  "incident_id": "INC_003",
+  "dag_id": "generate_fraud_alert_daily",
+  "task_id": "fraud_alert_generator",
+  "status": "FAILED",
+  "execution_date": "2026-06-10",
+  "log_file": "inc_003.log"
+}
