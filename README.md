@@ -1,25 +1,28 @@
 # 🛡️ Absol AI
 
-**Predicting Data Disasters Before They Spread**
+## Predicting Data Disasters Before They Spread
 
-Absol AI is an AI-powered DataOps Incident Management Agent designed to help Analytics Engineers and Data Engineers automatically detect, analyze, prioritize, and respond to failed data pipelines.
+Absol AI is an AI-powered DataOps Incident Commander that automatically investigates failed data pipelines, identifies root causes, evaluates business impact through lineage analysis, discovers affected stakeholders, and prepares incident communications.
 
-Inspired by the Pokémon **Absol**, known for sensing disasters before they occur, Absol AI proactively investigates data incidents before they propagate downstream and impact business users.
+Inspired by the Pokémon **Absol**, known for sensing disasters before they happen, Absol AI helps Analytics Engineers, Data Engineers, and Platform Teams detect and respond to data incidents before they spread across the organization.
 
 ---
 
 # 🚀 Problem Statement
 
-In modern data platforms, Analytics Engineers spend significant time every day:
+Modern data platforms process hundreds of pipelines every day.
+
+When a critical pipeline fails, engineers often spend significant time:
 
 * Monitoring Airflow DAG failures
-* Reading lengthy logs
+* Reading lengthy Spark logs
 * Identifying root causes
 * Assessing downstream impacts
 * Discovering affected stakeholders
-* Drafting notifications manually
+* Drafting stakeholder communications
+* Escalating incidents manually
 
-This process is repetitive, time-consuming, and highly dependent on human expertise.
+As data ecosystems become increasingly complex, incident investigation becomes slower, more expensive, and more dependent on specialized expertise.
 
 ---
 
@@ -27,135 +30,209 @@ This process is repetitive, time-consuming, and highly dependent on human expert
 
 Absol AI automates the incident investigation workflow.
 
-Instead of manually reviewing failures, operators simply launch an investigation and the agent will:
+Instead of manually reviewing logs and tracing lineage graphs, operators simply launch an investigation and receive:
 
-1. Detect failed incidents
-2. Analyze logs
-3. Classify root causes
-4. Evaluate business impact
-5. Discover stakeholders
-6. Generate Root Cause Analysis (RCA)
-7. Draft stakeholder notifications
-8. Produce executive summaries
+* Root cause classification
+* Business impact assessment
+* Downstream lineage analysis
+* Stakeholder discovery
+* AI-generated RCA
+* Stakeholder notification drafts
+* Executive incident summaries
 
 ---
 
-# 🏗️ Architecture
+# 🏗️ System Architecture
 
 ```text
-Incident Data
-    │
-    ▼
-Log Parser
-    │
-    ▼
-Classification Engine
-    │
-    ├── DATA_MISSING
-    ├── RESOURCE
-    ├── CODE_BUG
-    ├── INFRA
-    └── PERMISSION
-    │
-    ▼
-Impact Analyzer
-    │
-    ▼
+Incident Detection
+        │
+        ▼
+Rule-Based Classification
+        │
+        ▼
+Unknown Incident?
+        │
+ ┌──────┴──────┐
+ │             │
+ No           Yes
+ │             │
+ ▼             ▼
+Rule       AI Classifier
+Engine     (LLM)
+ │             │
+ └──────┬──────┘
+        ▼
+Impact Analysis
+        ▼
+Lineage Traversal
+        ▼
 Stakeholder Discovery
-    │
-    ▼
-LLM Layer (Qwen 3.5 27B)
-    │
-    ├── Executive Summary
-    ├── Root Cause Analysis
-    └── Notification Draft
-    │
-    ▼
+        ▼
+AI Root Cause Analysis
+        ▼
+Notification Generation
+        ▼
+Executive Summary
+        ▼
 Streamlit Dashboard
 ```
 
 ---
 
-# 🤖 Agent Workflow
+# 🤖 Key Features
+
+## 1. Hybrid Incident Classification
+
+Absol AI uses a hybrid classification architecture.
+
+### Rule Engine
+
+Known failures are classified deterministically:
+
+* DATA_MISSING
+* RESOURCE
+* CODE_BUG
+* INFRA
+* PERMISSION
+
+### AI Classifier
+
+When no known failure pattern is detected, incidents are escalated to an LLM for semantic classification.
+
+Examples:
+
+* Unable to infer schema
+* Partition not found
+* Authentication failures
+* Socket timeouts
+* Out-of-memory errors
+* Stage failures
+
+---
+
+## 2. Impact Assessment
+
+Absol AI automatically determines:
+
+* Affected datasets
+* Downstream assets
+* Business impact scope
+
+using dataset lineage metadata.
+
+Example:
 
 ```text
-Scan Incidents
+customer_feature
     ↓
-Parse Logs
+risk_score
     ↓
-Classify Root Cause
+fraud_alert
     ↓
-Evaluate Business Impact
-    ↓
-Discover Stakeholders
-    ↓
-Generate Notifications
-    ↓
-Produce Executive Summary
+fraud_dashboard
 ```
 
 ---
 
-# 📊 Features
+## 3. Stakeholder Discovery
 
-## Executive Summary
+Absol AI identifies:
 
-Absol AI automatically generates a daily executive summary for platform operators and management teams.
+### Incident Owners
 
-### Example
+Responsible teams maintaining affected datasets.
 
-* Total incidents detected
-* High severity incidents
-* Business impact assessment
-* Recommended actions
+### Downstream Consumers
 
----
+Business users and operational teams consuming impacted outputs.
 
-## Incident Prioritization
+Example:
 
-Incidents are automatically ranked based on:
+```text
+Owner:
+risk_data@demo.com
 
-* Severity
-* Impact scope
-* Number of affected downstream assets
-
-The agent highlights the most critical incidents first.
+Consumers:
+fraud_ops@demo.com
+business_team@demo.com
+```
 
 ---
 
-## AI Root Cause Analysis
+## 4. AI Root Cause Analysis
 
-For each incident, Absol AI generates:
+For every incident, Absol AI generates:
 
 * Root cause analysis
-* Business impact
-* Investigation steps
-* Recommended resolution
+* Business impact summary
+* Investigation rationale
+* Recommended next actions
 
-Powered by Qwen 3.5 27B.
-
----
-
-## Stakeholder Discovery
-
-The agent automatically identifies:
-
-* Data owners
-* Platform owners
-* Impacted downstream consumers
-
-using lineage metadata.
+using a Large Language Model.
 
 ---
 
-## Notification Draft Generation
+## 5. Notification Draft Generation
 
-Absol AI automatically drafts stakeholder notifications including:
+Absol AI automatically prepares stakeholder communications.
 
-* Incident description
-* Impact summary
+Generated notifications include:
+
+* Incident details
+* Severity
+* Impact assessment
+* Affected stakeholders
 * Recommended actions
-* Escalation information
+
+---
+
+## 6. Executive Summary
+
+At the beginning of each day, Absol AI produces:
+
+* Incident statistics
+* High-priority failures
+* Impact overview
+* Recommended operational focus
+
+for managers and platform leads.
+
+---
+
+# 📊 Demo Data Platform
+
+The demo environment simulates a fintech data platform containing:
+
+### Raw Datasets
+
+* raw_customer
+* raw_transaction
+* raw_merchant
+
+### Feature Datasets
+
+* customer_feature
+* transaction_feature
+* merchant_feature
+* device_feature
+* kyc_feature
+
+### Scoring Datasets
+
+* risk_score
+* merchant_risk_score
+* transaction_anomaly_score
+* merchant_health_score
+
+### Business Outputs
+
+* risk_dashboard
+* fraud_dashboard
+* executive_dashboard
+* merchant_dashboard
+* operation_dashboard
+* compliance_report
 
 ---
 
@@ -170,15 +247,17 @@ agent/
 │   ├── dags.yaml
 │   ├── datasets.yaml
 │   ├── lineage.yaml
+│   ├── stakeholders.yaml
 │   ├── teams.yaml
 │   └── playbooks.yaml
 │
 ├── services/
+│   ├── incident_service.py
 │   ├── daily_incident_agent.py
-│   ├── incident_loader.py
 │   ├── classifier.py
+│   ├── ai_classifier.py
 │   ├── impact_analyzer.py
-│   ├── metadata_service.py
+│   ├── stakeholder_service.py
 │   ├── notification_service.py
 │   ├── executive_summary_service.py
 │   ├── rca_service.py
@@ -194,96 +273,115 @@ agent/
 
 # 🧠 AI Components
 
-## LLM Provider
+## AI Classifier
 
-Qwen 3.5 27B
+Used for semantic incident classification when rule-based matching fails.
 
-### Capabilities
+## AI RCA Generator
 
-* Executive Summary Generation
-* Root Cause Analysis
-* Stakeholder Communication Drafting
+Produces detailed root cause analyses.
+
+## AI Executive Summary Generator
+
+Produces executive-level incident summaries.
+
+## AI Notification Generator
+
+Creates stakeholder communication drafts.
 
 ---
 
-# 🎯 Demo Scenario
+# 🎯 Example Incident Investigation
 
 ### Incident
 
 ```text
-INC_001
+INC_016
 ```
 
-### Category
+### Log Snippet
 
 ```text
-DATA_MISSING
+java.net.SocketTimeoutException:
+Read timed out
 ```
 
-### Dataset
+### Classification
 
 ```text
-customer_feature
+INFRA
+```
+
+### Classification Source
+
+```text
+AI_CLASSIFIER
 ```
 
 ### Impact
 
 ```text
-risk_score
 fraud_alert
-risk_dashboard
+fraud_dashboard
+compliance_report
 ```
 
-### Agent Output
+### Stakeholders
 
 ```text
-Root Cause Analysis
-
-Business Impact
-
-Recommended Actions
-
-Stakeholder Notification Draft
+fraud_team@demo.com
+fraud_ops@demo.com
+compliance_team@demo.com
 ```
+
+### Output
+
+* AI RCA
+* Recommended Actions
+* Notification Draft
 
 ---
 
-# 📈 Business Impact
+# 📈 Business Value
 
-### Before Absol AI
+Before Absol AI:
 
 * Manual log investigation
+* Manual lineage analysis
 * Manual stakeholder discovery
-* Manual notification drafting
-* 30-60 minutes per day
+* Manual communication drafting
 
-### After Absol AI
+After Absol AI:
 
-* Automated incident analysis
+* Automated incident triage
 * Automated impact assessment
 * Automated stakeholder identification
-* AI-generated communications
+* AI-assisted communications
 
-Estimated investigation time reduced to less than 5 minutes.
+Estimated investigation effort can be reduced significantly depending on incident volume and severity.
 
 ---
 
 # 🔮 Future Enhancements
 
-* Airflow API integration
-* Real-time monitoring
-* Slack integration
-* Microsoft Teams integration
-* Email delivery service
-* Automated incident remediation
-* Multi-agent collaboration
+* Airflow API Integration
+* Slack Integration
+* Microsoft Teams Integration
+* Email Delivery Service
+* Real-Time Monitoring
+* Automated Remediation
+* Multi-Agent Collaboration
+* Data Quality Monitoring
+* Incident Trend Analysis
 
 ---
 
 # 👥 Team
 
-Gogo
+Claw-A-Thon 2026
 
-Absol AI
+## Absol AI
 
-"Predicting Data Disasters Before They Spread"
+**Predicting Data Disasters Before They Spread**
+
+Inspired by Absol's ability to sense disasters before they happen, Absol AI helps organizations detect, understand, and respond to data incidents before they impact business operations.

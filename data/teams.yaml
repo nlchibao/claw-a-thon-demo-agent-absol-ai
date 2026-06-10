@@ -1,23 +1,23 @@
 customer_platform:
-  emails:
-    - customer_platform@demo.com
+  email: customer_platform@demo.com
 
 merchant_platform:
-  emails:
-    - merchant_platform@demo.com
+  email: merchant_platform@demo.com
 
 risk_data:
-  emails:
-    - risk_data@demo.com
+  email: risk_data@demo.com
 
 fraud_analytics:
-  emails:
-    - fraud_analytics@demo.com
+  email: fraud_analytics@demo.com
 
 finance_bi:
-  emails:
-    - finance_bi@demo.com
+  email: finance_bi@demo.com
 
-growth_analytics:
-  emails:
-    - growth_analytics@demo.com
+executive_bi:
+  email: executive_bi@demo.com
+
+operations_bi:
+  email: operations_bi@demo.com
+
+compliance_team:
+  email: compliance_team@demo.com

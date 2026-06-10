@@ -1,7 +1,7 @@
 {
   "incident_id": "INC_005",
-  "dag_id": "build_merchant_feature_daily",
-  "task_id": "merchant_feature",
+  "dag_id": "generate_fraud_alert_daily",
+  "task_id": "spark_fraud_alert",
   "status": "FAILED",
   "execution_date": "2026-06-10",
   "log_file": "inc_005.log"

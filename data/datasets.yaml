@@ -45,3 +45,35 @@ fraud_dashboard:
 finance_dashboard:
   owner_team: finance_bi
   criticality: medium
+
+kyc_feature:
+  owner_team: customer_platform
+  criticality: high
+
+device_feature:
+  owner_team: customer_platform
+  criticality: high
+
+merchant_health_score:
+  owner_team: risk_data
+  criticality: medium
+
+transaction_anomaly_score:
+  owner_team: risk_data
+  criticality: high
+
+executive_dashboard:
+  owner_team: executive_bi
+  criticality: high
+
+merchant_dashboard:
+  owner_team: merchant_platform
+  criticality: medium
+
+operation_dashboard:
+  owner_team: operations_bi
+  criticality: medium
+
+compliance_report:
+  owner_team: compliance_team
+  criticality: high

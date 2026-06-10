@@ -35,4 +35,4 @@ class Classifier:
         ):
             return "PERMISSION"
 
-        return "UNKNOWN"
+        return None

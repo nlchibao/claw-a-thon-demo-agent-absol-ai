@@ -29,27 +29,41 @@ st.set_page_config(
 if "selected_incident" not in st.session_state:
     st.session_state.selected_incident = None
 
+if "notification_sent" not in st.session_state:
+    st.session_state.notification_sent = False
+
+if "sent_notifications" not in st.session_state:
+    st.session_state.sent_notifications = set()
 
 # ==================================================
 # LOAD DATA
 # ==================================================
 
-incidents = DailyIncidentAgent().run()
+@st.cache_data(ttl=3600)
+def load_incidents():
+
+    return (
+        DailyIncidentAgent()
+        .run()
+    )
+
+incidents = load_incidents()
+
+
 
 summary = SummaryService().summarize(
     incidents
 )
 
-# ai_summary = (
-#     ExecutiveSummaryService()
-#     .generate(
-#         incidents,
-#         summary
-#     )
-# )
+
+
 
 @st.cache_data(ttl=3600)
-def get_ai_summary(incidents, summary):
+def get_ai_summary(
+        incidents,
+        summary
+):
+
     return (
         ExecutiveSummaryService()
         .generate(
@@ -59,8 +73,17 @@ def get_ai_summary(incidents, summary):
     )
 
 ai_summary = get_ai_summary(
-    json.dumps(incidents),
-    json.dumps(summary)
+    tuple(
+        json.dumps(
+            x,
+            sort_keys=True
+        )
+        for x in incidents
+    ),
+    json.dumps(
+        summary,
+        sort_keys=True
+    )
 )
 
 
@@ -130,6 +153,41 @@ st.subheader(
 )
 
 total_incidents = len(incidents)
+manual_minutes_per_incident = 10
+ai_minutes_per_incident = 1
+
+saved_minutes = 0
+
+for incident in incidents:
+
+    if incident["severity"] == "HIGH":
+        saved_minutes += 15
+
+    elif incident["severity"] == "MEDIUM":
+        saved_minutes += 10
+
+    else:
+        saved_minutes += 5
+
+
+
+if saved_minutes >= 60:
+
+    hours = round(
+        saved_minutes / 60,
+        1
+    )
+
+    time_saved_text = (
+        f"{hours} hrs/day"
+    )
+
+else:
+
+    time_saved_text = (
+        f"{saved_minutes} mins/day"
+    )
+
 
 high_incidents = summary["severities"].get(
     "HIGH",
@@ -144,8 +202,8 @@ total_impacted_assets = sum(
 )
 
 with st.expander(
-    "View Agent Reasoning Process",
-    expanded=True
+    "🤖 View Agent Execution Details",
+    expanded=False
 ):
 
     st.success(
@@ -197,6 +255,7 @@ with st.expander(
     """
     )
 
+
 col1, col2 = st.columns(2)
 
 with col1:
@@ -205,10 +264,11 @@ with col1:
         total_incidents
     )
 
+
 with col2:
     st.metric(
         "Estimated Time Saved",
-        "45 mins/day"
+        time_saved_text
     )
 
 
@@ -226,86 +286,6 @@ st.info(
     ai_summary
 )
 
-# ==================================================
-# TOP PRIORITY INCIDENTS
-# ==================================================
-
-st.divider()
-
-st.subheader(
-    "🔥 Top Priority Incidents"
-)
-
-for item in ranked_incidents[:3]:
-
-    severity_icon = {
-        "HIGH": "🔴",
-        "MEDIUM": "🟠",
-        "LOW": "🟢"
-    }.get(
-        item["severity"],
-        "⚪"
-    )
-
-    st.warning(
-        f"""
-{severity_icon} Incident: {item['incident_id']}
-
-Severity: {item['severity']}
-
-Category: {item['category']}
-
-Dataset: {item['dataset']}
-
-Owner Team: {item['owner']}
-"""
-    )
-#
-# # ==================================================
-# # INCIDENT OVERVIEW TABLE
-# # ==================================================
-#
-# st.divider()
-#
-# st.subheader(
-#     "📋 Today's Incident Overview"
-# )
-#
-# table_data = []
-#
-# for item in incidents:
-#
-#     table_data.append(
-#         {
-#             "Incident": item["incident_id"],
-#             "Category": item["category"],
-#             "Severity": item["severity"],
-#             "Dataset": item["dataset"],
-#             "Owner": item["owner"],
-#             "Impacted Assets": len(
-#                 item["impacted_assets"]
-#             )
-#         }
-#     )
-#
-# st.dataframe(
-#     table_data,
-#     use_container_width=True
-# )
-
-# ==================================================
-# INCIDENT DETAIL
-# ==================================================
-
-# st.divider()
-#
-# st.subheader(
-#     "🔍 Incident Detail"
-# )
-# st.subheader(
-#     f"🚨 Investigation Report - {selected_data['incident_id']}"
-# )
-
 incident_ids = [
     x["incident_id"]
     for x in incidents
@@ -322,88 +302,96 @@ st.subheader(
 )
 
 st.write(
-    "Top priority incidents identified by Absol AI."
+    f"""
+Absol AI detected **{len(ranked_incidents)} incidents** today.
+Showing the top 3 prioritized incidents.
+"""
 )
+
+# -------------------------
+# TOP 3 INCIDENTS
+# -------------------------
 
 for incident in ranked_incidents[:3]:
 
-    current_selected = (
-        st.session_state.selected_incident
+    severity_icon = {
+        "HIGH": "🔴",
+        "MEDIUM": "🟠",
+        "LOW": "🟢"
+    }.get(
+        incident["severity"],
+        "⚪"
     )
 
-    if incident["incident_id"] == current_selected:
-        st.success(
-            f"🟢 Currently Investigating: {incident['incident_id']}"
-        )
-
-    col1, col2 = st.columns([4, 1])
+    col1, col2 = st.columns([5, 1])
 
     with col1:
-        severity_icon = {
-            "HIGH": "🔴",
-            "MEDIUM": "🟠",
-            "LOW": "🟢"
-        }.get(
-            incident["severity"],
-            "⚪"
+
+        title = (
+            f"{severity_icon} {incident['incident_id']}"
         )
+
+        if (
+            incident["incident_id"]
+            == st.session_state.selected_incident
+        ):
+            title += " 🟢"
 
         st.markdown(
             f"""
-        ### {severity_icon} {incident['incident_id']}
+### {title}
 
-        **Severity:** {incident['severity']}
+**Severity:** {incident['severity']}
 
-        **Category:** {incident['category']}
+**Category:** {incident['category']}
 
-        **Dataset:** {incident['dataset']}
-        """
-        )
-
-    with col2:
-
-        if st.button(
-                "🤖 Run Investigation",
-                key=incident["incident_id"]
-        ):
-            st.session_state.selected_incident = (
-                incident["incident_id"]
-            )
-            st.rerun()
-
-st.divider()
-
-st.subheader(
-    "📂 Other Incidents"
-)
-
-other_incidents = ranked_incidents[3:]
-
-for incident in other_incidents:
-
-    col1, col2 = st.columns([4, 1])
-
-    with col1:
-
-        st.info(
-            f"""
-{incident['incident_id']} | {incident['severity']}
-
-Category: {incident['category']}
+**Dataset:** {incident['dataset']}
 """
         )
 
     with col2:
 
         if st.button(
-                "🤖 Run Investigation",
-                key=f"other_{incident['incident_id']}"
+            "🤖 Run Investigation",
+            key=f"top_{incident['incident_id']}"
         ):
             st.session_state.selected_incident = (
                 incident["incident_id"]
             )
 
             st.rerun()
+
+# -------------------------
+# ALL INCIDENTS
+# -------------------------
+
+st.divider()
+
+incident_options = [
+    f"{x['incident_id']} | {x['severity']} | {x['category']}"
+    for x in ranked_incidents
+]
+
+selected_option = st.selectbox(
+    "📊 Investigate Any Incident",
+    incident_options
+)
+
+selected_incident = (
+    selected_option
+    .split("|")[0]
+    .strip()
+)
+
+if st.button(
+    "🚨 Investigate Selected Incident"
+):
+
+    st.session_state.selected_incident = (
+        selected_incident
+    )
+
+    st.rerun()
 
 selected_id = (
     st.session_state.selected_incident
@@ -421,7 +409,7 @@ st.subheader(
     f"🚨 Investigation Report - {selected_data['incident_id']}"
 )
 
-col1, col2, col3 = st.columns(3)
+col1, col2, col3, col4 = st.columns(4)
 
 with col1:
     st.metric(
@@ -441,6 +429,33 @@ with col3:
         selected_data["owner"]
     )
 
+with col4:
+    st.metric(
+        "Classifier",
+        selected_data.get(
+            "classification_source",
+            "RULE_ENGINE"
+        )
+    )
+
+if (
+    selected_data.get(
+        "classification_source"
+    )
+    == "AI_CLASSIFIER"
+):
+
+    st.info(
+        "🤖 This incident was classified using AI because no rule-based pattern matched the log."
+    )
+
+else:
+
+    st.info(
+        "⚙️ This incident matched a known rule-based failure pattern."
+    )
+
+
 notification_draft = (
     NotificationService()
     .generate(
@@ -448,23 +463,24 @@ notification_draft = (
     )
 )
 
-# ai_rca = (
-#     RCAService()
-#     .generate(
-#         selected_data
-#     )
-# )
+
 @st.cache_data(ttl=3600)
-def get_ai_rca(incident):
+def get_ai_rca(
+        incident_id,
+        log_content
+):
+
     return (
         RCAService()
         .generate(
-            incident
+            log_content
         )
     )
 
+
 ai_rca = get_ai_rca(
-    json.dumps(selected_data)
+    selected_data["incident_id"],
+    selected_data["log_content"]
 )
 
 
@@ -492,7 +508,11 @@ with col1:
 with col2:
 
     st.write(
-        "### Impacted Assets"
+        "### 📊 Impact Assessment"
+    )
+
+    st.write(
+        "**Impacted Assets:**"
     )
 
     if selected_data["impacted_assets"]:
@@ -505,36 +525,35 @@ with col2:
             )
 
     else:
+
         st.write(
             "No downstream impact detected."
         )
-#
-# # ==================================================
-# # CURRENT INVESTIGATION TARGET
-# # ==================================================
-#
-# st.divider()
-#
-# col1, col2, col3 = st.columns(3)
-#
-# with col1:
-#     st.metric(
-#         "Incident",
-#         selected_data["incident_id"]
-#     )
-#
-# with col2:
-#     st.metric(
-#         "Severity",
-#         selected_data["severity"]
-#     )
-#
-# with col3:
-#     st.metric(
-#         "Category",
-#         selected_data["category"]
-#     )
 
+    st.write("")
+
+    st.write(
+        "**Impacted Stakeholders:**"
+    )
+
+    consumers = selected_data.get(
+        "impacted_consumers",
+        []
+    )
+
+    if consumers:
+
+        for consumer in consumers:
+
+            st.write(
+                f"• {consumer}"
+            )
+
+    else:
+
+        st.write(
+            "No impacted stakeholders."
+        )
 
 
 # ==================================================
@@ -550,7 +569,6 @@ st.subheader(
 st.info(
     ai_rca
 )
-
 
 # ==================================================
 # RECOMMENDATIONS
@@ -583,27 +601,44 @@ st.code(
 )
 
 if st.button(
-    "📨 Send Notification"
+    "📨 Send Notification",
+    key="send_notification"
 ):
-    sent_to = [
-        selected_data["owner"]
-    ]
+
+    st.session_state.sent_notifications.add(
+        selected_data["incident_id"]
+    )
+
+
+if (
+    selected_data["incident_id"]
+    in st.session_state.sent_notifications
+):
+
+    total_recipients = (
+        1 +
+        len(
+            selected_data.get(
+                "impacted_consumers",
+                []
+            )
+        )
+    )
 
     st.success(
         f"""
-    Notification sent successfully.
+Notification sent successfully.
 
-    Incident:
-    {selected_data['incident_id']}
+Recipients:
+{total_recipients}
 
-    Owner Team:
-    {selected_data['owner']}
+Owner Team:
+{selected_data['owner']}
 
-    Affected Assets:
-    {len(selected_data['impacted_assets'])}
-    """
+Impacted Consumers:
+{len(selected_data.get('impacted_consumers', []))}
+"""
     )
-
 
 # ==================================================
 # RAW LOG

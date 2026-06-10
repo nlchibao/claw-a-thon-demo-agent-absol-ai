@@ -1,6 +1,7 @@
 raw_customer:
   downstream:
     - customer_feature
+    - kyc_feature
 
 raw_transaction:
   downstream:
@@ -13,32 +14,67 @@ raw_merchant:
 customer_feature:
   downstream:
     - risk_score
+    - device_feature
 
 transaction_feature:
   downstream:
     - risk_score
+    - transaction_anomaly_score
 
 merchant_feature:
   downstream:
     - merchant_risk_score
+    - merchant_health_score
+
+kyc_feature:
+  downstream:
+    - risk_score
+
+device_feature:
+  downstream:
+    - fraud_alert
 
 risk_score:
   downstream:
     - fraud_alert
     - risk_dashboard
+    - executive_dashboard
+
+transaction_anomaly_score:
+  downstream:
+    - fraud_alert
+    - operation_dashboard
 
 merchant_risk_score:
   downstream:
     - fraud_alert
+    - merchant_dashboard
+
+merchant_health_score:
+  downstream:
+    - merchant_dashboard
 
 fraud_alert:
   downstream:
     - fraud_dashboard
+    - compliance_report
 
 risk_dashboard:
   downstream: []
 
 fraud_dashboard:
+  downstream: []
+
+executive_dashboard:
+  downstream: []
+
+merchant_dashboard:
+  downstream: []
+
+operation_dashboard:
+  downstream: []
+
+compliance_report:
   downstream: []
 
 finance_dashboard:

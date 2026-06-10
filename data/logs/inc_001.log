@@ -1,18 +1,30 @@
-[INFO] Starting Spark Job
+[INFO] Airflow DAG Run: scheduled__2026-06-10
+[INFO] Task attempt: 1
+[INFO] Spark Version: 3.5.1
+[INFO] Application ID: application_20260610_1001
+[INFO] Executor instances: 12
+[INFO] Driver memory: 4g
+[INFO] Executor memory: 8g
+[INFO] Initializing Spark Session
+[INFO] Loading configuration
+[INFO] Configuration validation passed
+[INFO] Starting data quality checks
+[INFO] Data quality checks passed
+[INFO] Reading upstream datasets
+[INFO] Building execution plan
+[INFO] Stage 1 completed
+[INFO] Stage 2 completed
+[WARN] Minor skew detected on partition 14
+[INFO] Rebalancing partitions
+[INFO] Continuing execution
 
-[INFO] Reading customer source
-
-[INFO] Path:
-hdfs:///raw/customer/20260610
-
+[INFO] Reading source path hdfs:///raw/customer/dt=20260610
+[INFO] Discovering partitions
 org.apache.spark.sql.AnalysisException:
 Path does not exist:
-hdfs:///raw/customer/20260610
-
+hdfs:///raw/customer/dt=20260610
 at org.apache.spark.sql.execution.datasources.DataSource
-
-at org.apache.spark.sql.execution.datasources.DataSource
-
-[ERROR] Spark job failed
-
+at org.apache.spark.sql.execution.QueryExecution
+[ERROR] Source dataset unavailable
+[ERROR] Job aborted
 [INFO] Marking task as FAILED

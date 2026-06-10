@@ -33,3 +33,27 @@ publish_fraud_dashboard_daily:
 
 publish_finance_dashboard_daily:
   output_dataset: finance_dashboard
+
+build_kyc_feature_daily:
+  output_dataset: kyc_feature
+
+build_device_feature_daily:
+  output_dataset: device_feature
+
+build_transaction_anomaly_score_daily:
+  output_dataset: transaction_anomaly_score
+
+build_merchant_health_score_daily:
+  output_dataset: merchant_health_score
+
+publish_executive_dashboard_daily:
+  output_dataset: executive_dashboard
+
+publish_merchant_dashboard_daily:
+  output_dataset: merchant_dashboard
+
+publish_operation_dashboard_daily:
+  output_dataset: operation_dashboard
+
+publish_compliance_report_daily:
+  output_dataset: compliance_report

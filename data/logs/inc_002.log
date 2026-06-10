@@ -1,17 +1,31 @@
-[INFO] Starting Spark Job
+[INFO] Airflow DAG Run: scheduled__2026-06-10
+[INFO] Task attempt: 1
+[INFO] Spark Version: 3.5.1
+[INFO] Application ID: application_20260610_1002
+[INFO] Executor instances: 12
+[INFO] Driver memory: 4g
+[INFO] Executor memory: 8g
+[INFO] Initializing Spark Session
+[INFO] Loading configuration
+[INFO] Configuration validation passed
+[INFO] Starting data quality checks
+[INFO] Data quality checks passed
+[INFO] Reading upstream datasets
+[INFO] Building execution plan
+[INFO] Stage 1 completed
+[INFO] Stage 2 completed
+[WARN] Minor skew detected on partition 14
+[INFO] Rebalancing partitions
+[INFO] Continuing execution
 
-Executor 5 lost
-
+[INFO] Input records: 1250000000
+[INFO] Shuffle partitions: 4000
+[WARN] Executor memory usage exceeds 92%
+[WARN] GC overhead limit exceeded
+[INFO] Retrying failed task
+ExecutorLostFailure:
 Container killed by YARN
-
-Container exceeded physical memory limit
-
-Current usage:
-14.5 GB
-
-Limit:
-12 GB
-
-[ERROR] ExecutorLostFailure
-
-[INFO] Marking task as FAILED
+Container exited with exit code 137
+Container diagnostics: memory limit exceeded
+[ERROR] Stage failed
+[ERROR] Job aborted

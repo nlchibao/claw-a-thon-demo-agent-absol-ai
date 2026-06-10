@@ -1,0 +1,44 @@
+risk_dashboard:
+  consumers:
+    - risk_team@demo.com
+
+fraud_dashboard:
+  consumers:
+    - fraud_ops@demo.com
+
+executive_dashboard:
+  consumers:
+    - business_team@demo.com
+    - executive_team@demo.com
+
+merchant_dashboard:
+  consumers:
+    - merchant_team@demo.com
+
+operation_dashboard:
+  consumers:
+    - operation_team@demo.com
+
+compliance_report:
+  consumers:
+    - compliance_team@demo.com
+
+risk_score:
+  consumers:
+    - risk_team@demo.com
+
+fraud_alert:
+  consumers:
+    - fraud_team@demo.com
+
+merchant_risk_score:
+  consumers:
+    - merchant_team@demo.com
+
+merchant_health_score:
+  consumers:
+    - merchant_team@demo.com
+
+transaction_anomaly_score:
+  consumers:
+    - fraud_team@demo.com

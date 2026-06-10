@@ -1,10 +1,27 @@
-Traceback (most recent call last):
+[INFO] Airflow DAG Run: scheduled__2026-06-10
+[INFO] Task attempt: 1
+[INFO] Spark Version: 3.5.1
+[INFO] Application ID: application_20260610_1003
+[INFO] Executor instances: 12
+[INFO] Driver memory: 4g
+[INFO] Executor memory: 8g
+[INFO] Initializing Spark Session
+[INFO] Loading configuration
+[INFO] Configuration validation passed
+[INFO] Starting data quality checks
+[INFO] Data quality checks passed
+[INFO] Reading upstream datasets
+[INFO] Building execution plan
+[INFO] Stage 1 completed
+[INFO] Stage 2 completed
+[WARN] Minor skew detected on partition 14
+[INFO] Rebalancing partitions
+[INFO] Continuing execution
 
-File "fraud_alert.py", line 25
-
-score = row["risk_score"]
-
-KeyError:
-risk_score
-
-Task failed
+[INFO] Loading kerberos ticket
+[INFO] Acquiring delegation token
+Permission denied:
+user=spark
+resource=/warehouse/merchant
+[ERROR] Access denied
+[ERROR] Authorization failed
