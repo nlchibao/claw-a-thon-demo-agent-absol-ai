@@ -1,97 +1,34 @@
-from services.incident_loader import IncidentLoader
-from services.log_parser import LogParser
-from services.classifier import Classifier
+from fastapi import FastAPI
+from agent import AbsolAgent
 
-from services.metadata_service import MetadataService
-from services.impact_analyzer import ImpactAnalyzer
+app = FastAPI()
 
-from services.recommendation_engine import (
-    RecommendationEngine
-)
-
-from services.severity_engine import (
-    SeverityEngine
-)
+agent = AbsolAgent()
 
 
-def run(incident_id):
+@app.get("/")
+def root():
 
-    incident = IncidentLoader().load(
-        incident_id
-    )
-
-    log_content = LogParser().parse(
-        incident.log_file
-    )
-
-    category = Classifier().classify(
-        log_content
-    )
-
-    metadata = MetadataService()
-
-    dataset = metadata.get_dataset_from_dag(
-        incident.dag_id
-    )
-
-    owner = metadata.get_owner_team(
-        dataset
-    )
-
-    impacted_assets = (
-        ImpactAnalyzer()
-        .get_downstream_assets(dataset)
-    )
-
-    recommendations = (
-        RecommendationEngine()
-        .get_actions(category)
-    )
-
-    severity = (
-        SeverityEngine()
-        .calculate(
-            category,
-            impacted_assets
-        )
-    )
-
-    print("=" * 50)
-
-    print(
-        f"Incident ID: {incident.incident_id}"
-    )
-
-    print(
-        f"Category: {category}"
-    )
-
-    print(
-        f"Severity: {severity}"
-    )
-
-    print(
-        f"Dataset: {dataset}"
-    )
-
-    print(
-        f"Owner Team: {owner}"
-    )
-
-    print(
-        f"Affected Assets: {impacted_assets}"
-    )
-
-    print(
-        f"Recommendations:"
-    )
-
-    for item in recommendations:
-        print(f" - {item}")
-
-    print("=" * 50)
+    return {
+        "service": "Absol AI",
+        "status": "running"
+    }
 
 
-if __name__ == "__main__":
+@app.get("/health")
+def health():
 
-    run("INC_001")
+    return {
+        "status": "healthy"
+    }
+
+
+@app.post("/investigate")
+def investigate():
+
+    incidents = agent.run()
+
+    return {
+        "total_incidents": len(incidents),
+        "incidents": incidents
+    }

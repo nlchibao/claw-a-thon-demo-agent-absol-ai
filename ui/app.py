@@ -9,7 +9,7 @@ if str(ROOT_DIR) not in sys.path:
 
 import streamlit as st
 
-from services.daily_incident_agent import DailyIncidentAgent
+from agent import AbsolAgent
 from services.summary_service import SummaryService
 from services.executive_summary_service import ExecutiveSummaryService
 from services.prioritization_service import PrioritizationService
@@ -43,7 +43,7 @@ if "sent_notifications" not in st.session_state:
 def load_incidents():
 
     return (
-        DailyIncidentAgent()
+        AbsolAgent()
         .run()
     )
 

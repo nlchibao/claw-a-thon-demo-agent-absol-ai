@@ -376,6 +376,14 @@ Estimated investigation effort can be reduced significantly depending on inciden
 
 ---
 
+## Run Dashboard
+
+```bash
+streamlit run ui/app.py
+```
+
+This is the primary entry point of Absol AI.
+
 # 👥 Team
 
 Claw-A-Thon 2026
