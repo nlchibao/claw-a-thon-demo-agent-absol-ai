@@ -2,93 +2,69 @@
 
 ## Predicting Data Disasters Before They Spread
 
-Absol AI is an AI-powered DataOps Incident Commander that automatically investigates failed data pipelines, identifies root causes, evaluates business impact through lineage analysis, discovers affected stakeholders, and prepares incident communications.
+Absol AI is an AI-powered Data Incident Management Agent that automatically investigates failed data pipelines, identifies root causes, evaluates downstream business impact, discovers affected stakeholders, and generates actionable remediation recommendations.
 
-Inspired by the Pokémon **Absol**, known for sensing disasters before they happen, Absol AI helps Analytics Engineers, Data Engineers, and Platform Teams detect and respond to data incidents before they spread across the organization.
-
----
-
-# 🚀 Problem Statement
-
-Modern data platforms process hundreds of pipelines every day.
-
-When a critical pipeline fails, engineers often spend significant time:
-
-* Monitoring Airflow DAG failures
-* Reading lengthy Spark logs
-* Identifying root causes
-* Assessing downstream impacts
-* Discovering affected stakeholders
-* Drafting stakeholder communications
-* Escalating incidents manually
-
-As data ecosystems become increasingly complex, incident investigation becomes slower, more expensive, and more dependent on specialized expertise.
+Inspired by Absol's ability to sense disasters before they occur, Absol AI helps Data Teams detect, understand, and respond to data incidents before they propagate across the organization.
 
 ---
 
-# 💡 Solution
+# Problem Statement
 
-Absol AI automates the incident investigation workflow.
+Modern data platforms rely on hundreds of daily pipelines and datasets.
 
-Instead of manually reviewing logs and tracing lineage graphs, operators simply launch an investigation and receive:
+When a pipeline fails, engineers often spend significant time:
 
-* Root cause classification
-* Business impact assessment
-* Downstream lineage analysis
-* Stakeholder discovery
-* AI-generated RCA
-* Stakeholder notification drafts
-* Executive incident summaries
+* Reading Spark and Airflow logs
+* Identifying root causes manually
+* Assessing downstream impact
+* Finding affected stakeholders
+* Communicating incidents
+* Recommending mitigation plans
 
----
+As organizations scale, this process becomes increasingly difficult and expensive.
 
-# 🏗️ System Architecture
-
-```text
-Incident Detection
-        │
-        ▼
-Rule-Based Classification
-        │
-        ▼
-Unknown Incident?
-        │
- ┌──────┴──────┐
- │             │
- No           Yes
- │             │
- ▼             ▼
-Rule       AI Classifier
-Engine     (LLM)
- │             │
- └──────┬──────┘
-        ▼
-Impact Analysis
-        ▼
-Lineage Traversal
-        ▼
-Stakeholder Discovery
-        ▼
-AI Root Cause Analysis
-        ▼
-Notification Generation
-        ▼
-Executive Summary
-        ▼
-Streamlit Dashboard
-```
+Absol AI automates the entire workflow.
 
 ---
 
-# 🤖 Key Features
+# Solution Overview
 
-## 1. Hybrid Incident Classification
+Absol AI continuously analyzes failed data pipelines and automatically:
 
-Absol AI uses a hybrid classification architecture.
+1. Identifies root causes
+2. Classifies incident categories
+3. Evaluates business impact
+4. Discovers affected stakeholders
+5. Generates remediation recommendations
+6. Produces AI-powered executive summaries
+7. Drafts stakeholder notifications
 
-### Rule Engine
+All results are presented through an interactive dashboard.
 
-Known failures are classified deterministically:
+---
+
+# Key Features
+
+## 🤖 Automated Incident Investigation
+
+Absol AI automatically processes incident metadata and logs to produce investigation reports.
+
+Extracted information includes:
+
+* Incident ID
+* Failed DAG
+* Dataset owner
+* Failure category
+* Severity level
+* Impacted downstream assets
+
+---
+
+## 🧠 Hybrid Classification Engine
+
+### Rule-Based Classification
+
+Known patterns are classified immediately:
 
 * DATA_MISSING
 * RESOURCE
@@ -96,150 +72,151 @@ Known failures are classified deterministically:
 * INFRA
 * PERMISSION
 
-### AI Classifier
+### AI Classification Fallback
 
-When no known failure pattern is detected, incidents are escalated to an LLM for semantic classification.
+When no rule matches a failure pattern, Absol AI automatically invokes an LLM-based classifier.
+
+Benefits:
+
+* Handles unseen failures
+* Adapts to new incidents
+* Reduces manual intervention
+
+---
+
+## 🔍 AI Root Cause Analysis
+
+Absol AI generates detailed explanations describing:
+
+* Why the failure occurred
+* Potential downstream impact
+* Suggested mitigation steps
+
+This allows engineers to investigate incidents significantly faster.
+
+---
+
+## 📊 Impact Assessment
+
+Absol AI evaluates:
+
+### Impacted Assets
 
 Examples:
 
-* Unable to infer schema
-* Partition not found
-* Authentication failures
-* Socket timeouts
-* Out-of-memory errors
-* Stage failures
+* customer_feature
+* risk_score
+* fraud_alert
+* risk_dashboard
+* fraud_dashboard
+
+### Impacted Stakeholders
+
+Examples:
+
+* Customer Platform Team
+* Risk Team
+* Fraud Analytics Team
+* Finance BI Team
 
 ---
 
-## 2. Impact Assessment
+## 🛠 Recommendation Engine
 
-Absol AI automatically determines:
-
-* Affected datasets
-* Downstream assets
-* Business impact scope
-
-using dataset lineage metadata.
+Category-specific remediation playbooks are automatically generated.
 
 Example:
 
-```text
-customer_feature
-    ↓
-risk_score
-    ↓
-fraud_alert
-    ↓
-fraud_dashboard
-```
+### DATA_MISSING
+
+* Check upstream ingestion DAG
+* Verify source path
+* Contact source owner
+
+### RESOURCE
+
+* Retry DAG
+* Check cluster utilization
+* Increase executor memory
 
 ---
 
-## 3. Stakeholder Discovery
+## 📧 Notification Draft Generation
 
-Absol AI identifies:
+Absol AI automatically generates stakeholder communication drafts including:
 
-### Incident Owners
-
-Responsible teams maintaining affected datasets.
-
-### Downstream Consumers
-
-Business users and operational teams consuming impacted outputs.
-
-Example:
-
-```text
-Owner:
-risk_data@demo.com
-
-Consumers:
-fraud_ops@demo.com
-business_team@demo.com
-```
-
----
-
-## 4. AI Root Cause Analysis
-
-For every incident, Absol AI generates:
-
-* Root cause analysis
-* Business impact summary
-* Investigation rationale
-* Recommended next actions
-
-using a Large Language Model.
-
----
-
-## 5. Notification Draft Generation
-
-Absol AI automatically prepares stakeholder communications.
-
-Generated notifications include:
-
-* Incident details
+* Owner team
+* Impacted consumers
 * Severity
-* Impact assessment
-* Affected stakeholders
+* Impacted assets
 * Recommended actions
 
 ---
 
-## 6. Executive Summary
+## 📈 AI Executive Summary
 
-At the beginning of each day, Absol AI produces:
+Management-friendly summaries provide:
 
-* Incident statistics
-* High-priority failures
-* Impact overview
-* Recommended operational focus
-
-for managers and platform leads.
+* Daily incident overview
+* Severity distribution
+* Operational risk assessment
+* Recommended priorities
 
 ---
 
-# 📊 Demo Data Platform
-
-The demo environment simulates a fintech data platform containing:
-
-### Raw Datasets
-
-* raw_customer
-* raw_transaction
-* raw_merchant
-
-### Feature Datasets
-
-* customer_feature
-* transaction_feature
-* merchant_feature
-* device_feature
-* kyc_feature
-
-### Scoring Datasets
-
-* risk_score
-* merchant_risk_score
-* transaction_anomaly_score
-* merchant_health_score
-
-### Business Outputs
-
-* risk_dashboard
-* fraud_dashboard
-* executive_dashboard
-* merchant_dashboard
-* operation_dashboard
-* compliance_report
-
----
-
-# 📂 Project Structure
+# Architecture
 
 ```text
-agent/
+Failed Pipeline
+       |
+       v
+Incident Loader
+       |
+       v
+Log Parser
+       |
+       v
+Rule-Based Classifier
+       |
+       +------------------+
+       |                  |
+       | No Match         |
+       v                  |
+AI Classifier             |
+       |                  |
+       +------------------+
+               |
+               v
+Impact Analyzer
+               |
+               v
+Stakeholder Discovery
+               |
+               v
+Recommendation Engine
+               |
+               v
+Severity Engine
+               |
+               v
+AI RCA Generator
+               |
+               v
+Notification Generator
+               |
+               v
+Streamlit Dashboard
+```
+
+---
+
+# Project Structure
+
+```text
+project/
+│
+├── agents/
+│   └── absol_agent.py
 │
 ├── data/
 │   ├── incidents/
@@ -248,148 +225,337 @@ agent/
 │   ├── datasets.yaml
 │   ├── lineage.yaml
 │   ├── stakeholders.yaml
-│   ├── teams.yaml
 │   └── playbooks.yaml
 │
 ├── services/
-│   ├── incident_service.py
-│   ├── daily_incident_agent.py
-│   ├── classifier.py
 │   ├── ai_classifier.py
-│   ├── impact_analyzer.py
-│   ├── stakeholder_service.py
-│   ├── notification_service.py
+│   ├── classifier.py
 │   ├── executive_summary_service.py
+│   ├── impact_analyzer.py
+│   ├── incident_service.py
+│   ├── notification_service.py
+│   ├── prioritization_service.py
+│   ├── recommendation_engine.py
 │   ├── rca_service.py
-│   └── llm_service.py
+│   ├── severity_engine.py
+│   └── summary_service.py
 │
 ├── ui/
 │   └── app.py
 │
+├── Dockerfile
+├── requirements.txt
+├── main.py
 └── README.md
 ```
 
 ---
 
-# 🧠 AI Components
+# Dashboard Components
 
-## AI Classifier
+## KPI Overview
 
-Used for semantic incident classification when rule-based matching fails.
+Displays:
 
-## AI RCA Generator
-
-Produces detailed root cause analyses.
-
-## AI Executive Summary Generator
-
-Produces executive-level incident summaries.
-
-## AI Notification Generator
-
-Creates stakeholder communication drafts.
+* Total Incidents
+* High Severity Incidents
+* Medium Severity Incidents
+* Estimated Time Saved
 
 ---
 
-# 🎯 Example Incident Investigation
+## AI Executive Summary
 
-### Incident
-
-```text
-INC_016
-```
-
-### Log Snippet
-
-```text
-java.net.SocketTimeoutException:
-Read timed out
-```
-
-### Classification
-
-```text
-INFRA
-```
-
-### Classification Source
-
-```text
-AI_CLASSIFIER
-```
-
-### Impact
-
-```text
-fraud_alert
-fraud_dashboard
-compliance_report
-```
-
-### Stakeholders
-
-```text
-fraud_team@demo.com
-fraud_ops@demo.com
-compliance_team@demo.com
-```
-
-### Output
-
-* AI RCA
-* Recommended Actions
-* Notification Draft
+Provides a management-level overview of the incident landscape.
 
 ---
 
-# 📈 Business Value
+## Incident Investigation Center
 
-Before Absol AI:
+Displays:
 
-* Manual log investigation
-* Manual lineage analysis
-* Manual stakeholder discovery
-* Manual communication drafting
-
-After Absol AI:
-
-* Automated incident triage
-* Automated impact assessment
-* Automated stakeholder identification
-* AI-assisted communications
-
-Estimated investigation effort can be reduced significantly depending on incident volume and severity.
+* Prioritized incidents
+* Severity levels
+* Failure categories
+* Investigation controls
 
 ---
 
-# 🔮 Future Enhancements
+## Investigation Report
 
-* Airflow API Integration
-* Slack Integration
-* Microsoft Teams Integration
-* Email Delivery Service
-* Real-Time Monitoring
-* Automated Remediation
-* Multi-Agent Collaboration
-* Data Quality Monitoring
-* Incident Trend Analysis
+Displays:
+
+* Severity
+* Category
+* Dataset
+* Owner Team
+* Classification Source
+* Impact Assessment
 
 ---
 
-## Run Dashboard
+## AI Root Cause Analysis
+
+Generates an AI-powered explanation of the incident.
+
+---
+
+## Stakeholder Notification Draft
+
+Automatically drafts communications for affected teams.
+
+---
+
+# Sample Incident Categories
+
+| Category     | Example                   |
+| ------------ | ------------------------- |
+| DATA_MISSING | Missing HDFS Path         |
+| RESOURCE     | Executor Lost             |
+| CODE_BUG     | KeyError / AttributeError |
+| INFRA        | Hive Metastore Failure    |
+| PERMISSION   | Access Denied             |
+| UNKNOWN      | Classified by AI          |
+
+---
+
+# Technology Stack
+
+* Python 3.9
+* Streamlit
+* Docker
+* YAML Metadata Store
+* VNG AI Platform MaaS
+* Qwen 3.5 27B
+* AgentBase Runtime
+* AgentBase Container Registry
+
+---
+
+# Environment Variables
+
+Create a `.env` file:
+
+```env
+AI_PLATFORM_API_KEY=
+AI_PLATFORM_BASE_URL=https://maas-llm-aiplatform-hcm.api.vngcloud.vn/v1
+MODEL_NAME=qwen/qwen3-5-27b
+```
+
+Do not commit the actual `.env` file.
+
+---
+
+# Local Development
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Run dashboard:
 
 ```bash
 streamlit run ui/app.py
 ```
 
-This is the primary entry point of Absol AI.
+Dashboard:
 
-# 👥 Team
+```text
+http://localhost:8501
+```
 
-Claw-A-Thon 2026
+---
 
-## Absol AI
+# Docker Deployment
 
-**Predicting Data Disasters Before They Spread**
+Build image:
 
-Inspired by Absol's ability to sense disasters before they happen, Absol AI helps organizations detect, understand, and respond to data incidents before they impact business operations.
+```bash
+docker build -t absol-ai .
+```
+
+Run container:
+
+```bash
+docker run -p 8080:8080 absol-ai
+```
+
+---
+
+# AgentBase Deployment
+
+## Prerequisites
+
+Configure AgentBase deployment credentials:
+
+```bash
+export GREENNODE_CLIENT_ID=<your-client-id>
+export GREENNODE_CLIENT_SECRET=<your-client-secret>
+```
+
+Create application environment file:
+
+```bash
+cp .env.example .env
+```
+
+Update `.env` with your AI Platform credentials.
+
+---
+
+## Build Docker Image
+
+```bash
+docker build -t absol-ai .
+```
+
+---
+
+## Login to AgentBase Container Registry
+
+```bash
+bash .claude/skills/agentbase/scripts/cr.sh credentials docker-login
+```
+
+---
+
+## Discover Container Registry Information
+
+```bash
+bash .claude/skills/agentbase/scripts/cr.sh repo get
+```
+
+Example:
+
+```json
+{
+  "name": "111480-abp111962",
+  "registryUrl": "vcr.vngcloud.vn"
+}
+```
+
+---
+
+## Tag Image
+
+```bash
+docker tag absol-ai \
+vcr.vngcloud.vn/<repo-name>/absol-ai:v1
+```
+
+---
+
+## Push Image
+
+```bash
+docker push \
+vcr.vngcloud.vn/<repo-name>/absol-ai:v1
+```
+
+---
+
+## Verify Image
+
+```bash
+bash .claude/skills/agentbase/scripts/cr.sh images list
+```
+
+---
+
+## Create Runtime
+
+```bash
+bash .claude/skills/agentbase/scripts/runtime.sh create \
+  --name absol-ai \
+  --image vcr.vngcloud.vn/<repo-name>/absol-ai:v1 \
+  --flavor runtime-s2-general-2x4 \
+  --env-file .env \
+  --min-replicas 1 \
+  --max-replicas 1 \
+  --from-cr
+```
+
+---
+
+## Verify Runtime
+
+```bash
+bash .claude/skills/agentbase/scripts/runtime.sh list
+```
+
+or
+
+```bash
+bash .claude/skills/agentbase/scripts/runtime.sh get <runtime-id>
+```
+
+Expected status:
+
+```text
+ACTIVE
+```
+
+---
+
+## Get Endpoint
+
+```bash
+bash .claude/skills/agentbase/scripts/runtime.sh endpoints list <runtime-id>
+```
+
+Expected:
+
+```json
+{
+  "status": "ACTIVE",
+  "url": "https://<endpoint-url>"
+}
+```
+
+Open the endpoint URL in a browser to access the Absol AI Dashboard.
+
+
+# Business Value
+
+Absol AI helps organizations:
+
+* Reduce incident investigation time
+* Improve MTTR (Mean Time To Resolution)
+* Improve stakeholder communication
+* Increase operational visibility
+* Prevent downstream data quality issues
+
+---
+
+# Future Enhancements
+
+* Airflow Integration
+* DataHub Lineage Integration
+* Slack Notifications
+* Microsoft Teams Notifications
+* Auto-Remediation Workflows
+* Multi-Agent Collaboration
+
+---
+
+# Deployment Status
+
+✅ Dockerized
+
+✅ AgentBase Runtime
+
+✅ AgentBase Container Registry
+
+✅ Managed Endpoint
+
+✅ AI-Powered Incident Investigation
+
+---
+
+# Team
+
+Built for GreenNode AgentBase Challenge 2026.
+
+Absol AI — Predicting Data Disasters Before They Spread.
