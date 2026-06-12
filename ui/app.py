@@ -20,9 +20,14 @@ from services.rca_service import RCAService
 # PAGE CONFIG
 # ==================================================
 
+# st.set_page_config(
+#     page_title="Absol AI",
+#     page_icon="🛡️",
+#     layout="wide"
+# )
 st.set_page_config(
     page_title="Absol AI",
-    page_icon="🛡️",
+    page_icon="assets/absol_logo.png",
     layout="wide"
 )
 
@@ -103,12 +108,19 @@ if st.session_state.selected_incident is None:
 # ==================================================
 # HEADER
 # ==================================================
+col_logo, col_title = st.columns([1.5, 6])
 
-st.title("🛡️ Absol AI")
+with col_logo:
+    st.image(
+        "assets/absol_logo.png",
+        width=180
+    )
 
-st.subheader(
-    "Predicting Data Disasters Before They Spread"
-)
+with col_title:
+    st.title("Absol AI")
+    st.subheader(
+        "Predicting Data Disasters Before They Spread"
+    )
 
 # ==================================================
 # KPI SECTION
@@ -339,14 +351,10 @@ for incident in ranked_incidents[:3]:
 
         st.markdown(
             f"""
-### {title}
+        ### {title}
 
-**Severity:** {incident['severity']}
-
-**Category:** {incident['category']}
-
-**Dataset:** {incident['dataset']}
-"""
+        Severity: {incident['severity']} | Category: {incident['category']} | Dataset: {incident['dataset']}
+        """
         )
 
     with col2:
@@ -484,76 +492,79 @@ ai_rca = get_ai_rca(
 )
 
 
+# ==================================================
+# INCIDENT SUMMARY
+# ==================================================
 
-col1, col2 = st.columns(2)
+summary_col1, summary_col2, summary_col3, summary_col4 = st.columns(4)
 
-with col1:
-
-    st.write(
-        f"**Category:** {selected_data['category']}"
+with summary_col1:
+    st.metric(
+        "Category",
+        selected_data["category"]
     )
 
-    st.write(
-        f"**Severity:** {selected_data['severity']}"
+with summary_col2:
+    st.metric(
+        "Severity",
+        selected_data["severity"]
     )
 
-    st.write(
-        f"**Dataset:** {selected_data['dataset']}"
+with summary_col3:
+    st.metric(
+        "Dataset",
+        selected_data["dataset"]
     )
 
-    st.write(
-        f"**Owner Team:** {selected_data['owner']}"
+with summary_col4:
+    st.metric(
+        "Owner Team",
+        selected_data["owner"]
     )
 
-with col2:
+# ==================================================
+# IMPACT ASSESSMENT
+# ==================================================
 
-    st.write(
-        "### 📊 Impact Assessment"
+st.write("### 📊 Impact Assessment")
+
+assets = selected_data.get(
+    "impacted_assets",
+    []
+)
+
+consumers = selected_data.get(
+    "impacted_consumers",
+    []
+)
+
+st.write("**Impacted Assets**")
+
+if assets:
+
+    st.info(
+        " • ".join(assets)
     )
 
-    st.write(
-        "**Impacted Assets:**"
+else:
+
+    st.success(
+        "No downstream impact detected."
     )
 
-    if selected_data["impacted_assets"]:
+st.write("**Impacted Stakeholders**")
 
-        for asset in selected_data[
-            "impacted_assets"
-        ]:
-            st.write(
-                f"• {asset}"
-            )
+if consumers:
 
-    else:
-
-        st.write(
-            "No downstream impact detected."
-        )
-
-    st.write("")
-
-    st.write(
-        "**Impacted Stakeholders:**"
+    st.info(
+        " • ".join(consumers)
     )
 
-    consumers = selected_data.get(
-        "impacted_consumers",
-        []
+else:
+
+    st.success(
+        "No impacted stakeholders."
     )
-
-    if consumers:
-
-        for consumer in consumers:
-
-            st.write(
-                f"• {consumer}"
-            )
-
-    else:
-
-        st.write(
-            "No impacted stakeholders."
-        )
 
 
 # ==================================================
@@ -595,10 +606,40 @@ st.subheader(
     "📧 Stakeholder Notification Draft"
 )
 
-st.code(
+# st.code(
+#     notification_draft,
+#     language="text"
+# )
+# with st.expander(
+#     "📧 View Notification Draft",
+#     expanded=False
+# ):
+#     st.code(
+#         notification_draft,
+#         language="text"
+#     )
+st.text_area(
+    "Notification Preview",
     notification_draft,
-    language="text"
+    height=400
 )
+
+# preview = "\n".join(
+#     notification_draft.splitlines()[:8]
+# )
+#
+# st.text_area(
+#     "Notification Preview",
+#     preview,
+#     height=300
+# )
+with st.expander(
+    "View Full Email"
+):
+    st.code(
+        notification_draft,
+        language="text"
+    )
 
 if st.button(
     "📨 Send Notification",
