@@ -1,16 +1,20 @@
-# 🛡️ Absol AI
+# 🛡️ ABSOL AI
 
 ## Predicting Data Disasters Before They Spread
 
-Absol AI is an AI-powered Data Incident Management Agent that automatically investigates failed data pipelines, identifies root causes, evaluates downstream business impact, discovers affected stakeholders, and generates actionable remediation recommendations.
+Absol AI is an AI-powered Data Incident Investigation Agent designed to help data teams quickly understand, prioritize, and respond to data incidents before they impact business operations.
 
-Inspired by Absol's ability to sense disasters before they occur, Absol AI helps Data Teams detect, understand, and respond to data incidents before they propagate across the organization.
+Inspired by Absol's ability to sense disasters before they occur, Absol AI automatically investigates failed data pipelines, identifies root causes, evaluates downstream business impact, discovers affected stakeholders, and generates actionable remediation recommendations.
+
+The current prototype demonstrates a complete incident investigation workflow using simulated incident, log, and lineage data. In production environments, Absol AI can integrate with Apache Airflow for pipeline failure monitoring, DataHub for lineage analysis, and Outlook for automated stakeholder communication.
+
+By combining AI-powered reasoning with data observability concepts, Absol AI helps organizations reduce investigation time, improve operational visibility, and minimize business risks caused by data failures.
 
 ---
 
 # Problem Statement
 
-Modern data platforms rely on hundreds of daily pipelines and datasets.
+Modern data platforms rely on hundreds of daily pipelines, datasets, dashboards, and machine learning features.
 
 When a pipeline fails, engineers often spend significant time:
 
@@ -43,6 +47,55 @@ All results are presented through an interactive dashboard.
 
 ---
 
+# How Absol AI Works
+
+## Production Architecture
+
+```text
+Airflow Logs
+        \
+         \
+          > ABSOL AI
+         /
+DataHub Lineage
+
+        ↓
+
+Incident Prioritization
+
+Root Cause Analysis
+
+Impact Assessment
+
+Stakeholder Discovery
+
+Notification Generation
+
+        ↓
+
+Outlook Email
+```
+
+## Current Demo Architecture
+
+```text
+Simulated Incident Files
+Simulated Log Files
+Simulated Lineage Files
+
+        ↓
+
+      ABSOL AI
+
+        ↓
+
+Streamlit Dashboard
+```
+
+This prototype uses simulated datasets to demonstrate the complete workflow while maintaining a production-ready architecture for future integrations.
+
+---
+
 # Key Features
 
 ## 🤖 Automated Incident Investigation
@@ -53,10 +106,10 @@ Extracted information includes:
 
 * Incident ID
 * Failed DAG
-* Dataset owner
-* Failure category
-* Severity level
-* Impacted downstream assets
+* Dataset Owner
+* Failure Category
+* Severity Level
+* Impacted Downstream Assets
 
 ---
 
@@ -124,8 +177,6 @@ Examples:
 ## 🛠 Recommendation Engine
 
 Category-specific remediation playbooks are automatically generated.
-
-Example:
 
 ### DATA_MISSING
 
@@ -242,6 +293,9 @@ project/
 │
 ├── ui/
 │   └── app.py
+│
+├── assets/
+│   └── absol_logo.png
 │
 ├── Dockerfile
 ├── requirements.txt
@@ -360,7 +414,7 @@ Run dashboard:
 streamlit run ui/app.py
 ```
 
-Dashboard:
+Dashboard URL:
 
 ```text
 http://localhost:8501
@@ -376,7 +430,7 @@ Build image:
 docker build -t absol-ai .
 ```
 
-Run container:
+Run locally:
 
 ```bash
 docker run -p 8080:8080 absol-ai
@@ -388,20 +442,18 @@ docker run -p 8080:8080 absol-ai
 
 ## Prerequisites
 
-Configure AgentBase deployment credentials:
-
 ```bash
 export GREENNODE_CLIENT_ID=<your-client-id>
 export GREENNODE_CLIENT_SECRET=<your-client-secret>
 ```
 
-Create application environment file:
+Update application environment:
 
 ```bash
 cp .env.example .env
 ```
 
-Update `.env` with your AI Platform credentials.
+Update `.env` with AI Platform credentials.
 
 ---
 
@@ -427,7 +479,7 @@ bash .claude/skills/agentbase/scripts/cr.sh credentials docker-login
 bash .claude/skills/agentbase/scripts/cr.sh repo get
 ```
 
-Example:
+Expected:
 
 ```json
 {
@@ -442,7 +494,7 @@ Example:
 
 ```bash
 docker tag absol-ai \
-vcr.vngcloud.vn/<repo-name>/absol-ai:v1
+vcr.vngcloud.vn/111480-abp111962/absol-ai:v1
 ```
 
 ---
@@ -451,15 +503,7 @@ vcr.vngcloud.vn/<repo-name>/absol-ai:v1
 
 ```bash
 docker push \
-vcr.vngcloud.vn/<repo-name>/absol-ai:v1
-```
-
----
-
-## Verify Image
-
-```bash
-bash .claude/skills/agentbase/scripts/cr.sh images list
+vcr.vngcloud.vn/111480-abp111962/absol-ai:v1
 ```
 
 ---
@@ -469,7 +513,7 @@ bash .claude/skills/agentbase/scripts/cr.sh images list
 ```bash
 bash .claude/skills/agentbase/scripts/runtime.sh create \
   --name absol-ai \
-  --image vcr.vngcloud.vn/<repo-name>/absol-ai:v1 \
+  --image vcr.vngcloud.vn/111480-abp111962/absol-ai:v1 \
   --flavor runtime-s2-general-2x4 \
   --env-file .env \
   --min-replicas 1 \
@@ -479,43 +523,34 @@ bash .claude/skills/agentbase/scripts/runtime.sh create \
 
 ---
 
-## Verify Runtime
+## Update Existing Runtime
 
 ```bash
-bash .claude/skills/agentbase/scripts/runtime.sh list
-```
-
-or
-
-```bash
-bash .claude/skills/agentbase/scripts/runtime.sh get <runtime-id>
-```
-
-Expected status:
-
-```text
-ACTIVE
+bash .claude/skills/agentbase/scripts/runtime.sh update \
+runtime-1813f7e5-7706-4a3a-a844-098e8a2f1dc5 \
+--image vcr.vngcloud.vn/111480-abp111962/absol-ai:v1 \
+--flavor runtime-s2-general-2x4 \
+--env-file .env \
+--from-cr
 ```
 
 ---
 
-## Get Endpoint
+# AgentBase Deployment Information
 
-```bash
-bash .claude/skills/agentbase/scripts/runtime.sh endpoints list <runtime-id>
+Runtime ID:
+
+```text
+runtime-1813f7e5-7706-4a3a-a844-098e8a2f1dc5
 ```
 
-Expected:
+Endpoint URL:
 
-```json
-{
-  "status": "ACTIVE",
-  "url": "https://<endpoint-url>"
-}
+```text
+https://endpoint-f85fa844-b7e2-4b62-8674-4d1c89caae93.agentbase-runtime.aiplatform.vngcloud.vn
 ```
 
-Open the endpoint URL in a browser to access the Absol AI Dashboard.
-
+---
 
 # Business Value
 
@@ -531,8 +566,9 @@ Absol AI helps organizations:
 
 # Future Enhancements
 
-* Airflow Integration
+* Apache Airflow Integration
 * DataHub Lineage Integration
+* Outlook Email Delivery
 * Slack Notifications
 * Microsoft Teams Notifications
 * Auto-Remediation Workflows
@@ -554,8 +590,8 @@ Absol AI helps organizations:
 
 ---
 
-# Team
+# Team Vision
 
-Built for GreenNode AgentBase Challenge 2026.
+Absol AI aims to transform data incident investigation from a manual, reactive process into an AI-assisted workflow that helps organizations identify issues faster, understand business impact more clearly, and communicate effectively with stakeholders.
 
 Absol AI — Predicting Data Disasters Before They Spread.
